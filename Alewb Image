@@ -1,0 +1,115 @@
+<?php
+/*
+Plugin Name: Alewb Image
+Description: Add Image on Sidebar
+Author: Alessia Missiaglia
+Version: 1
+Author URI: http://aleweb.eu
+*/
+ 
+ 
+class AlewbImage extends WP_Widget
+{
+  function AlewbImage()
+  {
+    $widget_ops = array('classname' => 'AlewbImage', 'description' => 'Add Image' );
+    $this->WP_Widget('AlewbImage', 'Add Image', $widget_ops);
+  }
+ 
+  function form($instance)
+  {
+  $instance = wp_parse_args( (array) $instance, array( 'title' => '', 'image' => '', 'alt' => '', 'link' => '', 'new_window' => false ) );
+	
+	$title = $instance['title'];
+		
+		
+?>
+
+   <p>
+			<label for="<?php echo $this->get_field_id("title"); ?>">
+				<?php _e( 'Title' ); ?>:
+				<input class="widefat" id="<?php echo $this->get_field_id("title"); ?>" name="<?php echo $this->get_field_name("title"); ?>" type="text" value="<?php echo esc_attr($instance["title"]); ?>" />
+			</label>
+		</p>
+
+		<p>
+			<label for="<?php echo $this->get_field_id('image'); ?>">
+				<?php _e('Image URL (required):'); ?>
+				<input class="widefat" id="<?php echo $this->get_field_id('image'); ?>" name="<?php echo $this->get_field_name('image'); ?>" type="text" value="<?php echo $instance['image']; ?>" />
+			</label>
+		</p>
+
+		<p>
+			<label for="<?php echo $this->get_field_id('alt'); ?>">
+				<?php _e('Alternate Text:'); ?>
+				<input class="widefat" id="<?php echo $this->get_field_id('alt'); ?>" name="<?php echo $this->get_field_name('alt'); ?>" type="text" value="<?php echo $instance['alt']; ?>" />
+				<br />
+				<small><?php _e( 'Shown if the image cannot be displayed' ); ?></small>
+			</label>
+		</p>
+
+		<p>
+			<label for="<?php echo $this->get_field_id('img_title'); ?>">
+				<?php _e('Title:'); ?>
+				<input class="widefat" id="<?php echo $this->get_field_id('img_title'); ?>" name="<?php echo $this->get_field_name('img_title'); ?>" type="text" value="<?php echo $instance['img_title']; ?>" />
+				<br />
+				<small><?php _e( 'Shown when the mouse cursor is held over the image' ); ?></small>
+			</label>
+		</p>
+
+		<p>
+			<label for="<?php echo $this->get_field_id('link'); ?>">
+				<?php _e('Link URL:'); ?>
+				<input class="widefat" id="<?php echo $this->get_field_id('link'); ?>" name="<?php echo $this->get_field_name('link'); ?>" type="text" value="<?php echo $instance['link']; ?>" />
+			</label>
+		</p>
+
+		<p>
+			<label for="<?php echo $this->get_field_id('new_window'); ?>">
+				<input id="<?php echo $this->get_field_id('new_window'); ?>" name="<?php echo $this->get_field_name('new_window'); ?>" type="checkbox" <?php if ($instance['new_window']) echo 'checked="checked"'; ?> />
+				<?php _e('Open link in new window'); ?>
+			</label>
+		</p>
+        
+<?php
+  }
+ 
+  function update($new_instance, $old_instance)
+  {
+	$instance = $old_instance;
+		$instance['image'] = strip_tags($new_instance['image']);
+		$instance['alt'] = strip_tags($new_instance['alt']);
+		$instance['link'] = strip_tags($new_instance['link']);
+		$instance['new_window'] = isset($new_instance['new_window']);
+		$instance['title'] = $new_instance['title'];
+		return $instance;
+  }
+ 
+  function widget($args, $instance)
+  {
+    extract($args, EXTR_SKIP);
+ 
+    // Optionally generate the link code
+  	if ($instance['link']) {
+  		if ($instance['new_window'])
+  			$before_image = "<a href=\"".$instance['link']."\" target=\"_blank\">";
+  		else
+  			$before_image = "<a href=\"".$instance['link']."\">";
+
+  		$after_image = "</a>";
+  	}		
+		
+  	echo $before_widget; ?>
+    <h2> <?php echo $instance['title']; ?></h2>
+  	<div class="simpleimage">
+  	  <?php echo $before_image; ?>
+  		<img src="<?php echo $instance['image']; ?>" alt="<?php echo $instance['alt']; ?>" />
+  		<?php echo $after_image; ?>
+  	</div>
+     <?php echo $after_widget; 
+	
+  }
+  
+  }
+ 
+add_action( 'widgets_init', create_function('', 'return register_widget("AlewbImage");') );?>
