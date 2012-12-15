@@ -6,19 +6,33 @@ Author: Alessia Missiaglia
 Version: 1
 Author URI: http://aleweb.eu
 */
+
+
+/*
+ * Determine the location
+ */
+ 
+$AlewbImage_plugin_path = WP_CONTENT_URL.'/plugins/'.plugin_basename(dirname(__FILE__)).'/';
+
+function AlewbImage_css() {
+	global $AlewbImage_plugin_path;
+	wp_enqueue_style('AlewbImage-css',$AlewbImage_plugin_path.'AlewbImage.css');
+}
+
+add_action('wp_print_styles', 'AlewbImage_css');
  
  
 class AlewbImage extends WP_Widget {
 
-  function AlewbImage() {
+  public function AlewbImage() {
 
     //Creazione del Widget, titolo e descrizione
 
-    $widget_ops = array('classname' => 'AlewbImage', 'description' => 'Add Image' );
-    $this->WP_Widget('AlewbImage', 'Add Image', $widget_ops);
+    $widget_ops = array('classname' => 'AlewbImage', 'description' => 'Add Image on the Sidebar' );
+    $this->WP_Widget('AlewbImage', 'ALEWB Image', $widget_ops);
   }
   
-  function widget($args, $instance) {
+  public function widget($args, $instance) {
 
   // Visualizzazione del Widget
 
@@ -40,8 +54,9 @@ class AlewbImage extends WP_Widget {
      <?php echo $after_widget; 
 
   }
+
   
-  function update($new_instance, $old_instance) {
+  public function update($new_instance, $old_instance) {
 
   // Salva modifiche
   
@@ -54,7 +69,7 @@ class AlewbImage extends WP_Widget {
 		return $instance;
   }
  
-  function form($instance) {
+  public function form($instance) {
 
   // Backend
   
@@ -107,5 +122,5 @@ class AlewbImage extends WP_Widget {
   }
   
   }
- 
+
 add_action( 'widgets_init', create_function('', 'return register_widget("AlewbImage");') );?>
