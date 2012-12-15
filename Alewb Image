@@ -3,7 +3,7 @@
 Plugin Name: Alewb Image
 Description: Aggiungi un'immagine nella sidebar
 Author: Alessia Missiaglia
-Version: 1
+Version: 1.0
 Author URI: http://aleweb.eu
 */
 
@@ -14,10 +14,36 @@ Author URI: http://aleweb.eu
  
 $AlewbImage_plugin_path = WP_CONTENT_URL.'/plugins/'.plugin_basename(dirname(__FILE__)).'/';
 
+// Add css Style
+
 function AlewbImage_css() {
 	global $AlewbImage_plugin_path;
 	wp_enqueue_style('AlewbImage-css',$AlewbImage_plugin_path.'AlewbImage.css');
 }
+
+// Load JQuery
+
+wp_enqueue_script("jquery");
+
+// Add Script
+
+wp_enqueue_script(
+	'jic', 
+	plugins_url( 'js/jquery-picture-min.js', __FILE__ ), 
+	NULL, 
+	NULL, 
+	TRUE 
+); 
+
+wp_enqueue_script(
+	'jqueryui', 
+	plugins_url( 'js/jquery-ui.min.js', __FILE__ ), 
+	NULL, 
+	NULL, 
+	TRUE 
+); 
+
+
 
 add_action('wp_print_styles', 'AlewbImage_css');
  
@@ -42,15 +68,17 @@ class AlewbImage extends WP_Widget {
 
   	echo $before_widget; ?>
     
-    <div>&nbsp;</div>
+    <h4> <?php echo $instance['title']; ?></h4>
   	<div class="view view-tenth">
+        <figure>
         <img src="<?php echo $instance['image']; ?>" alt="<?php echo $instance['alt']; ?>" />
+        </figure>
   		<div class="mask">
-           <h2> <?php echo $instance['title']; ?></h2>
            <p> <?php echo $instance['graph']; ?></p>
            <a target="_blank" href="<?php echo $instance['link']; ?>" />Read More...</a>
         </div> <!-- End mask -->
   	</div> <!-- End view tenth -->
+     <div>&nbsp;</div>
      <?php echo $after_widget; 
 
   }
@@ -124,4 +152,3 @@ class AlewbImage extends WP_Widget {
   }
 
 add_action( 'widgets_init', create_function('', 'return register_widget("AlewbImage");') );?>
-
