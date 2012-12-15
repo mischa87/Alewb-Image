@@ -67,15 +67,15 @@ class AlewbImage extends WP_Widget {
 ?>
 
    <p>
-			<label for="<?php echo $this->get_field_id("title"); ?>">
+			<label for="<?php echo $this->get_field_id('title'); ?>">
 				<?php _e( 'Title' ); ?>:
 				<input class="widefat" id="<?php echo $this->get_field_id("title"); ?>" name="<?php echo $this->get_field_name("title"); ?>" type="text" value="<?php echo esc_attr($instance["title"]); ?>" />
 			</label>
 		</p>
 
 <p>
-			<label for="<?php echo $this->get_field_id("graph"); ?>">
-				<?php _e( 'graph' ); ?>:
+			<label for="<?php echo $this->get_field_id('graph'); ?>">
+				<?php _e( 'Text' ); ?>:
 				<input class="widefat" id="<?php echo $this->get_field_id("graph"); ?>" name="<?php echo $this->get_field_name("graph"); ?>" type="text" value="<?php echo esc_attr($instance["graph"]); ?>" />
 			</label>
 		</p>
