@@ -21,29 +21,6 @@ function AlewbImage_css() {
 	wp_enqueue_style('AlewbImage-css',$AlewbImage_plugin_path.'AlewbImage.css');
 }
 
-// Load JQuery
-
-wp_enqueue_script("jquery");
-
-// Add Script
-
-wp_enqueue_script(
-	'jic', 
-	plugins_url( 'js/jquery-picture-min.js', __FILE__ ), 
-	NULL, 
-	NULL, 
-	TRUE 
-); 
-
-wp_enqueue_script(
-	'jqueryui', 
-	plugins_url( 'js/jquery-ui.min.js', __FILE__ ), 
-	NULL, 
-	NULL, 
-	TRUE 
-); 
-
-
 
 add_action('wp_print_styles', 'AlewbImage_css');
  
@@ -70,9 +47,7 @@ class AlewbImage extends WP_Widget {
     
     <h4> <?php echo $instance['title']; ?></h4>
   	<div class="view view-tenth">
-        <figure>
         <img src="<?php echo $instance['image']; ?>" alt="<?php echo $instance['alt']; ?>" />
-        </figure>
   		<div class="mask">
            <p> <?php echo $instance['graph']; ?></p>
            <a target="_blank" href="<?php echo $instance['link']; ?>" />Read More...</a>
