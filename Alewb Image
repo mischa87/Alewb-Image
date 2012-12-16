@@ -18,7 +18,7 @@ $AlewbImage_plugin_path = WP_CONTENT_URL.'/plugins/'.plugin_basename(dirname(__F
 
 function AlewbImage_css() {
 	global $AlewbImage_plugin_path;
-	wp_enqueue_style('AlewbImage-css',$AlewbImage_plugin_path.'AlewbImage.css');
+	wp_enqueue_style('AlewbImage-css',$AlewbImage_plugin_path.'styleale.css');
 }
 
 
